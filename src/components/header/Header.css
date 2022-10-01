@@ -1,0 +1,14 @@
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2%;
+    background-color: rgb(215, 218, 192);
+}
+header .header-links{
+    display: flex;
+}
+header .header-links p{
+    margin-left: 1rem;
+    cursor: pointer;
+}

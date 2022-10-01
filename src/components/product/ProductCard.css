@@ -1,0 +1,10 @@
+.demoBtn{
+    padding: 10px;
+    margin: 20px;
+}
+.demoFlex{
+    display: inline-block;
+}
+.active{
+    background-color: red;
+}
