@@ -1,0 +1,29 @@
+.cart-item-wrap{
+    padding: 1rem;
+    background-color: antiquewhite ;
+    display: flex;
+    margin: 1rem .2rem;
+    justify-content: space-between;
+    border-radius: 1rem;
+}
+.cart-controller{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cart-controller p{
+    padding: 0rem .6rem;
+}
+.cart-delete{
+    background-color: rgb(136, 110, 110);
+    border:0;
+    border-radius: .4rem;
+}
+.cart-item-wrap button{
+    padding: .5rem;
+    cursor: pointer;
+}
+.cart-delete:hover{
+    background-color: rgb(201, 102, 102);
+    color:#fff;
+}

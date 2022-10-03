@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Cart from './components/cart/Cart';
 import Header from './components/header/Header';
 import ProductCard from './components/product/ProductCard';
+import { dataRetriveLocal, insertItemsInCart, prodQntyDecre, prodQntyIncre, removeCartItems, totalCost } from './utilities/cartStorage';
+
 
 function App() {
 return (
@@ -13,8 +15,7 @@ return (
   );
 }
 
-let sum = 0;
-let existAddToCartItems = [];
+
 const Shop = () => {
   const fakeData = [
     {
@@ -36,50 +37,123 @@ const Shop = () => {
       id : 3,
       price:1000,
       name:"Speaker"
+    },
+    {
+      id : 4,
+      price:1200,
+      name:"Sound box"
+    },
+    {
+      id :5,
+      price:1500,
+      name:"Sound box core"
+    },
+    {
+      id : 6,
+      price:210,
+      name:"Sound box 1"
+    },
+    {
+      id : 7,
+      price:2200,
+      name:"Sound box 2"
     }
   ]
-  const checkInsertOrNot = (arr,curId) => {
-    if(arr.includes(curId)){
-      return true;
-    }else{
-      return false;
-    }
-  }
-  const [currentData, setData] = useState(sum);
-  const [exitsItems, setExitsItems] = useState(existAddToCartItems);
-  const updateSum = (eachProduct) => {
-    sum += eachProduct.price;
-    setData(sum);
-    const curProductId = eachProduct.id;
-    const checkExistId = checkInsertOrNot(exitsItems,curProductId);
-    if(!checkExistId){
-      const newArr = [...existAddToCartItems,curProductId];
-      existAddToCartItems = [...newArr];
-      setExitsItems(newArr);
-    }
-  } 
+
+// let initCartProducts = [
+//   {
+//     "id" : 1,
+//     "name":"Header",
+//     "cartQuantity" : 2,
+//     "carteachItemTotalPrice" : 200, // aita notun toiri korte hbe
+//     "price" : 210,
+//     "cardAddStatus" : false
+//   },
+//   {
+//     "id" : 2,
+//     "name":"Feather",
+//     "cartQuantity" : 1,
+//     "carteachItemTotalPrice" : 400, // aita notun toiri korte hbe
+//     "price" : 20,
+//     "cardAddStatus" : false
+//   },
+//   {
+//     "id" : 3,
+//     "name":"Kedar",
+//     "cartQuantity" : 1,
+//     "carteachItemTotalPrice" : 500, // aita notun toiri korte hbe
+//     "price" : 40,
+//     "cardAddStatus" : false
+//   }
+// ];
+
+//let prevCartData = // localhost cart product key name is cartProductKey
+
+// state set for perform button status, cart product, items calculation dynamically
+// const [cartItems, setCartItems] = useState (initCartProducts);
+
+
+let initCartData = dataRetriveLocal() || [];
+const [cartItems, setCartItems] = useState(initCartData);
+// product add to cart items
+const addToCart = (product) =>{
+  insertItemsInCart(product);
+  // console.log(dataRetriveLocal());
+  let addItems = dataRetriveLocal();
+  setCartItems(addItems);
+}
+
+// increment cart
+const incre = (id) => {
+  prodQntyIncre(id);
+  console.log("data retrive from updated everything : ",dataRetriveLocal());
+  let incrementProd = dataRetriveLocal();
+  setCartItems(incrementProd);
+}
+// product quantity decrement
+const decre = (id) => {
+  prodQntyDecre(id);
+  // console.log("data retrive from updated everything : ",dataRetriveLocal());
+  let decrementProd = dataRetriveLocal();
+  setCartItems(decrementProd);
+}
+
+// remove cart item
+const removeCartItem = (id) => {
+  removeCartItems(id);
+  let decrementProd = dataRetriveLocal();
+  setCartItems(decrementProd);
+}
+
   return (
     <div>
       <div className='left-contant-area'>
-        <h1>Hello World</h1>
         {
-          fakeData.map(each => {
-            let status = '';
-            for (let i = 0; i < exitsItems.length; i++) {
-              if(exitsItems[i] === each.id){
-                status = true;
-                break;
-              }else{
-                status = false;
-              }
-            }
-            return <ProductCard key={each.id} changeText ={status ? "Product added" : "Add to cart" } activeColor={status ? "demoBtn active" : "demoBtn"} fakeData={each} updateSum = {updateSum} ></ProductCard>
-          })
+          fakeData.map(product => <ProductCard
+            key={product.id}
+            data={product}
+            cartItem = {cartItems}
+            addToCart = {addToCart}
+            
+            >
+            </ProductCard> )
         }
+        
       </div>
       <div className='right-contant-area'>
         <div className='test1'>
-          <Cart data={currentData} ></Cart>
+          <div className='cart-header'><h3>cart items : {cartItems.length}</h3></div>
+          <div className='cart-header'><h3>Total price : {totalCost()}</h3></div>
+          {
+            cartItems.map(items =>  <Cart
+              key = {items.id}
+              data = {items}
+              incre = {incre}
+              decre = {decre}
+              removeCartItem = {removeCartItem}
+            > 
+            </Cart> )
+          }
         </div>
       </div>
     </div>

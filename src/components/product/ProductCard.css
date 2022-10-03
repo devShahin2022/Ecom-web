@@ -1,10 +1,25 @@
-.demoBtn{
-    padding: 10px;
-    margin: 20px;
-}
-.demoFlex{
+.product-wrapper{
+    padding: 1rem;
+    margin: 1rem;
+    background-color: bisque;
+    border-radius: 1rem;
+    width: 22%;
     display: inline-block;
 }
-.active{
-    background-color: red;
+.product-wrapper button{
+    border: none;
+    padding: .4rem;
+    background-color: rgb(76, 150, 150);
+    width: 100%;
+    margin-top: 1rem;
+    border-radius: .3rem;
+    cursor: pointer;
+}
+.product-wrapper button:hover{
+    background-color: rgb(73, 187, 187) !important;
+}
+.disableBtn{
+    cursor:not-allowed !important;
+    background-color: rgb(63, 88, 92) !important;
+    color:#fff;
 }

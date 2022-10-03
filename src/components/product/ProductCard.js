@@ -1,15 +1,21 @@
 import React from 'react';
 import './ProductCard.css';
 
-const ProductCard = (props) => {
-    // let activeColor = false;
-    // let activeColorVal = "demoBtn";
-    // let activeColorVal1 = "demoBtn active";
-    
-     const {price} = props.fakeData;
+const ProductCard = ({data, addToCart, cartItem}) => {
+    let activeSts = '';
+    for (let i = 0; i < cartItem.length; i++) {
+       if(cartItem[i].id === data.id){
+        activeSts = true;
+        break;
+       }else{
+        activeSts = false;
+       }
+    }
     return (
-        <div className='demoFlex'>
-            <button onClick={() => props.updateSum(props.fakeData)} className={props.activeColor}>{props.changeText} {price}</button>
+        <div className='product-wrapper'>
+            <h3>{data.name}</h3>
+            <p>{data.price}</p>
+            <button className={activeSts ? "disableBtn" : ""}  onClick={() => addToCart(data)}>{activeSts ?" Already added ": "Add to cart"}</button>
         </div>
     );
 };
