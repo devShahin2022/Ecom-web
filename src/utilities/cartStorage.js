@@ -1,15 +1,11 @@
-// ========//////======== NOTICE : front end a data gulo cart ar majh khane aktu 
-// lafalafi korar karon hoilo ami array item delete korar jonno splice use kora hoice
+// ========//////======== NOTICE : Problem solved....
 
 
 // check already insert or not in cart
 const isExitsProductInCart = (id) =>{
-    // console.log(id);
     const exitCartItems = dataRetriveLocal();
     if(exitCartItems !== null){
-        // console.log(exitCartItems);
         const res = exitCartItems.find(product => product.id === id);
-        // console.log("inside find", res);
         if(res === undefined){
             return false;
         }else{
@@ -61,46 +57,42 @@ const calcEachProdAmt = (products) => {
 }
 // product quantity increment
 const prodQntyIncre = (id) => {
-        console.log(id);
-        let products = dataRetriveLocal();
-        let ids =products.map(product => product.id);
-        const indexId = ids.indexOf(id);
-        let sliceProduct = products.splice(indexId,1);
-        let qnty = sliceProduct[0].cartQuantity;
-        if(qnty < 10){ // condition max selection
-            qnty += 1;
-            sliceProduct[0].cartQuantity = qnty;
-            products.push(sliceProduct[0]);
-            localStorage.clear("cart");
-            const updatedPrices = calcEachProdAmt(products);
-            dataStoreLocal(updatedPrices);
-        }else{
-            console.log("sooooory!!!! max 10 product you will be added.");
+    let products = dataRetriveLocal();
+    for (let i = 0; i < products.length; i++) {
+        if(products[i].id === id){
+            products[i].cartQuantity =  products[i].cartQuantity + 1;
+            if(products[i].cartQuantity < 11){
+                localStorage.clear("cart");
+                const updatedPrices = calcEachProdAmt(products);
+                dataStoreLocal(updatedPrices);
+                break;
+            }else{
+                console.log("do not access up to add 10 products");
+                break;
+            }
         }
+    }
 }
 
 // product quantity decrement
 const prodQntyDecre = (id) => {
-    console.log(id);
     let products = dataRetriveLocal();
-    let ids =products.map(product => product.id);
-    const indexId = ids.indexOf(id);
-    let sliceProduct = products.splice(indexId,1);
-    let qnty = sliceProduct[0].cartQuantity;
-    if(qnty > 1){ // condition min selection
-        qnty -= 1;
-        sliceProduct[0].cartQuantity = qnty;
-        products.push(sliceProduct[0]);
-        localStorage.clear("cart");
-        // dataStoreLocal(products);
-        const updatedPrices = calcEachProdAmt(products);
-        dataStoreLocal(updatedPrices);
-    }else{
-        console.log("sooooory!!!! minimum product selection is 1");
+    for (let i = 0; i < products.length; i++) {
+        if(products[i].id === id){
+            products[i].cartQuantity =  products[i].cartQuantity - 1;
+            if(products[i].cartQuantity > 0){
+                localStorage.clear("cart");
+                const updatedPrices = calcEachProdAmt(products);
+                dataStoreLocal(updatedPrices);
+                break;
+            }else{
+                console.log("min selection product will be 1");
+                break;
+            }
+        }
     }
 }
 // total prices
-
 const totalCost = () => {
     let sum = 0;
     const localCartItems = dataRetriveLocal();

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {useState } from 'react';
 import './App.css';
 import Cart from './components/cart/Cart';
 import Header from './components/header/Header';
@@ -106,7 +106,7 @@ const addToCart = (product) =>{
 // increment cart
 const incre = (id) => {
   prodQntyIncre(id);
-  console.log("data retrive from updated everything : ",dataRetriveLocal());
+  // console.log("data retrive from updated everything : ",dataRetriveLocal());
   let incrementProd = dataRetriveLocal();
   setCartItems(incrementProd);
 }
